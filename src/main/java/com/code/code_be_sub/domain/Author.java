@@ -2,6 +2,7 @@ package com.code.code_be_sub.domain;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -28,4 +29,10 @@ public class Author {
 
     @OneToMany(mappedBy = "author")
     private List<Book> books = new ArrayList<>();
+
+    @Builder
+    Author(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
 }

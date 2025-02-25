@@ -2,6 +2,7 @@ package com.code.code_be_sub.service;
 
 import com.code.code_be_sub.domain.Author;
 import com.code.code_be_sub.dto.AuthorDetailResDto;
+import com.code.code_be_sub.dto.AuthorListResDto;
 import com.code.code_be_sub.dto.RegisterAuthorReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
 import com.code.code_be_sub.global.code.ResultCode;
@@ -11,9 +12,14 @@ import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -31,7 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
         }
         Author author = reqDto.toEntity();
         authorRepository.save(author);
-        log.error("Register author success.");
+        log.info("Register author success.");
         return result.success();
     }
 
@@ -42,7 +48,30 @@ public class AuthorServiceImpl implements AuthorService {
         AuthorDetailResDto resData = new AuthorDetailResDto();
         Author author = findAuthorById(id);
         resData.from(author);
+        log.info("[{}] Select author detail success.", id);
         return result.success(resData);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseDto getAuthorList(Pageable pageable) {
+        ResponseDto result = new ResponseDto<>();
+        AuthorListResDto resultData = new AuthorListResDto();
+        List<AuthorListResDto.AuthorInfo> resultAuthors = new ArrayList<>();
+        Page<Author> authors = authorRepository.findAll(pageable);
+        authors.getContent().forEach(author ->
+                resultAuthors.add(AuthorListResDto.AuthorInfo.from(author)));
+
+        resultData.setAuthors(resultAuthors);
+        resultData.setPage(AuthorListResDto.PageInfo.builder()
+                .pageNumber(authors.getPageable().getPageNumber())
+                .count(authors.getNumberOfElements())
+                .pageSize(authors.getPageable().getPageSize())
+                .totalPages(authors.getTotalPages())
+                .totalElements(authors.getTotalElements())
+                .build());
+        log.info("Select author list success.");
+        return result.success(resultData);
     }
 
     private boolean isEmailDuplicated(String email) {

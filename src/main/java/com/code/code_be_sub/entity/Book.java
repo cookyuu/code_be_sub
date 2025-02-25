@@ -1,5 +1,6 @@
-package com.code.code_be_sub.domain;
+package com.code.code_be_sub.entity;
 
+import com.code.code_be_sub.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +13,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_book")
-public class Book {
+public class Book extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")

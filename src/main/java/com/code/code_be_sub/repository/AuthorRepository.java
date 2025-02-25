@@ -1,6 +1,6 @@
 package com.code.code_be_sub.repository;
 
-import com.code.code_be_sub.domain.Author;
+import com.code.code_be_sub.entity.Author;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

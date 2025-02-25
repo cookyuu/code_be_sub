@@ -1,7 +1,7 @@
 package com.code.code_be_sub.service;
 
-import com.code.code_be_sub.domain.Author;
 import com.code.code_be_sub.dto.*;
+import com.code.code_be_sub.entity.Author;
 import com.code.code_be_sub.global.code.ResultCode;
 import com.code.code_be_sub.global.exception.CodeCustomException;
 import com.code.code_be_sub.repository.AuthorRepository;
@@ -77,6 +77,15 @@ public class AuthorServiceImpl implements AuthorService {
         ResponseDto result = new ResponseDto();
         Author author = findAuthorById(id);
         author.update(reqDto.getName(), reqDto.getEmail());
+        return result.success();
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto deleteAuthor(Long id) {
+        ResponseDto result = new ResponseDto();
+        Author author = findAuthorById(id);
+        author.delete();
         return result.success();
     }
 

@@ -1,6 +1,6 @@
 package com.code.code_be_sub.dto;
 
-import com.code.code_be_sub.domain.Author;
+import com.code.code_be_sub.entity.Author;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;

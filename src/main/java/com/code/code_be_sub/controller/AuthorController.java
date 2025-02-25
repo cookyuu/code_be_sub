@@ -36,10 +36,16 @@ public class AuthorController {
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
 
-    @PutMapping("{id}")
+    @PutMapping("/{id}")
     public ResponseEntity updateAuthor(@PathVariable(name = "id") Long id, @RequestBody UpdateAuthorReqDto reqDto) {
         ResponseDto result = authorService.updateAuthor(id, reqDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.success());
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteAuthor(@PathVariable(name = "id") Long id) {
+        ResponseDto result = authorService.deleteAuthor(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
     }
 
 }

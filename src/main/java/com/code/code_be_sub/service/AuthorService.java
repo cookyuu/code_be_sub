@@ -13,4 +13,6 @@ public interface AuthorService {
     ResponseDto getAuthorList(Pageable pageable);
 
     ResponseDto updateAuthor(Long id, UpdateAuthorReqDto reqDto);
+
+    ResponseDto deleteAuthor(Long id);
 }

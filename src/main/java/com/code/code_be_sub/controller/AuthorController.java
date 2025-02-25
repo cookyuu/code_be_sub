@@ -2,6 +2,7 @@ package com.code.code_be_sub.controller;
 
 import com.code.code_be_sub.dto.RegisterAuthorReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
+import com.code.code_be_sub.dto.UpdateAuthorReqDto;
 import com.code.code_be_sub.service.AuthorService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
@@ -33,6 +34,12 @@ public class AuthorController {
         Pageable pageable = PageRequest.of(page, size);
         ResponseDto result = authorService.getAuthorList(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PutMapping("{id}")
+    public ResponseEntity updateAuthor(@PathVariable(name = "id") Long id, @RequestBody UpdateAuthorReqDto reqDto) {
+        ResponseDto result = authorService.updateAuthor(id, reqDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.success());
     }
 
 }

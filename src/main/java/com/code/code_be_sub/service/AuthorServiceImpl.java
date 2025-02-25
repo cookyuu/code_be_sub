@@ -1,10 +1,7 @@
 package com.code.code_be_sub.service;
 
 import com.code.code_be_sub.domain.Author;
-import com.code.code_be_sub.dto.AuthorDetailResDto;
-import com.code.code_be_sub.dto.AuthorListResDto;
-import com.code.code_be_sub.dto.RegisterAuthorReqDto;
-import com.code.code_be_sub.dto.ResponseDto;
+import com.code.code_be_sub.dto.*;
 import com.code.code_be_sub.global.code.ResultCode;
 import com.code.code_be_sub.global.exception.CodeCustomException;
 import com.code.code_be_sub.repository.AuthorRepository;
@@ -72,6 +69,15 @@ public class AuthorServiceImpl implements AuthorService {
                 .build());
         log.info("Select author list success.");
         return result.success(resultData);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto updateAuthor(Long id, UpdateAuthorReqDto reqDto) {
+        ResponseDto result = new ResponseDto();
+        Author author = findAuthorById(id);
+        author.update(reqDto.getName(), reqDto.getEmail());
+        return result.success();
     }
 
     private boolean isEmailDuplicated(String email) {

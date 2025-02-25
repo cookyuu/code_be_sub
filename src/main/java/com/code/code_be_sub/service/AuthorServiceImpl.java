@@ -36,16 +36,20 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    @Transactional
+    @Transactional(readOnly = true)
     public ResponseDto getAuthorDetail(Long id) {
         ResponseDto result = new ResponseDto();
         AuthorDetailResDto resData = new AuthorDetailResDto();
-        Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.AUTHOR_NOT_FOUND.getMessage()));
+        Author author = findAuthorById(id);
         resData.from(author);
         return result.success(resData);
     }
 
     private boolean isEmailDuplicated(String email) {
         return authorRepository.existsByEmail(email);
+    }
+
+    private Author findAuthorById(Long id) {
+        return authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.AUTHOR_NOT_FOUND.getMessage()));
     }
 }

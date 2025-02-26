@@ -43,4 +43,10 @@ public class BookController {
         ResponseDto result = bookService.updateBook(id, reqDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity deleteBook(@PathVariable(name = "id") Long id) {
+        ResponseDto result = bookService.deleteBook(id);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
+    }
 }

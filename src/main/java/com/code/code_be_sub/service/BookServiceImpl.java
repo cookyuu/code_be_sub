@@ -80,6 +80,15 @@ public class BookServiceImpl implements BookService {
         return result.success();
     }
 
+    @Override
+    @Transactional
+    public ResponseDto deleteBook(Long id) {
+        ResponseDto result = new ResponseDto();
+        Book book = findBookById(id);
+        bookRepository.delete(book);
+        return result.success();
+    }
+
     private Book findBookById(Long id) {
         return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.BOOK_NOT_FOUND.getMessage()));
     }

@@ -6,8 +6,14 @@ import com.code.code_be_sub.dto.UpdateBookReqDto;
 import org.springframework.data.domain.Pageable;
 
 public interface BookService {
+
     ResponseDto registerBook(RegisterBookReqDto reqDto);
+
     ResponseDto getBookList(Pageable pageable);
+
     ResponseDto getBookDetail(Long id);
+
     ResponseDto updateBook(Long id, UpdateBookReqDto reqDto);
+
+    ResponseDto deleteBook(Long id);
 }

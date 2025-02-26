@@ -1,5 +1,6 @@
 package com.code.code_be_sub.service;
 
+import com.code.code_be_sub.dto.BookListResDto;
 import com.code.code_be_sub.dto.RegisterBookReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
 import com.code.code_be_sub.entity.Author;
@@ -10,8 +11,13 @@ import com.code.code_be_sub.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -31,6 +37,27 @@ public class BookServiceImpl implements BookService {
         bookRepository.save(book);
         log.info("Register book success.");
         return result.success();
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public ResponseDto getBookList(Pageable pageable) {
+        ResponseDto result = new ResponseDto();
+        BookListResDto resultData = new BookListResDto();
+        List<BookListResDto.BookInfo> resultBooks = new ArrayList<>();
+        Page<Book> books = bookRepository.findAll(pageable);
+        books.getContent().forEach(book ->
+                resultBooks.add(BookListResDto.BookInfo.from(book)));
+        resultData.setBooks(resultBooks);
+        resultData.setPage(BookListResDto.PageInfo.builder()
+                .pageNumber(books.getPageable().getPageNumber())
+                .count(books.getNumberOfElements())
+                .pageSize(books.getPageable().getPageSize())
+                .totalPages(books.getTotalPages())
+                .totalElements(books.getTotalElements())
+                .build());
+        log.info("Select book list success.");
+        return result.success(resultData);
     }
 
     private Author findAuthorById(Long id) {

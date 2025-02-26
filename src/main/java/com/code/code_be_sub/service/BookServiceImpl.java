@@ -59,6 +59,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public ResponseDto getBookDetail(Long id) {
         ResponseDto result = new ResponseDto();
         BookDetailResDto resData = new BookDetailResDto();
@@ -66,6 +67,17 @@ public class BookServiceImpl implements BookService {
         resData.from(book);
         log.info("[{}] Select book detail success.", id);
         return result.success(resData);
+    }
+
+    @Override
+    @Transactional
+    public ResponseDto updateBook(Long id, UpdateBookReqDto reqDto) {
+        ResponseDto result = new ResponseDto();
+        Author newAuthor = findAuthorById(reqDto.getAuthorId());
+        Book book = findBookById(id);
+        book.update(reqDto.getTitle(), reqDto.getDescription(), reqDto.getIsbn(), reqDto.getPublicationDate(), newAuthor);
+        log.info("[{}] Update book success.", id);
+        return result.success();
     }
 
     private Book findBookById(Long id) {

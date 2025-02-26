@@ -44,4 +44,12 @@ public class Book extends BaseTimeEntity {
         this.publicationDate = publicationDate;
         this.author = author;
     }
+
+    public void update(String title, String description, String isbn, LocalDate publicationDate, Author author) {
+        this.title = title;
+        this.description = description;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.author = author;
+    }
 }

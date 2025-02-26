@@ -2,6 +2,7 @@ package com.code.code_be_sub.controller;
 
 import com.code.code_be_sub.dto.RegisterBookReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
+import com.code.code_be_sub.dto.UpdateBookReqDto;
 import com.code.code_be_sub.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -35,5 +36,11 @@ public class BookController {
     public ResponseEntity getBookDetail(@PathVariable(name = "id") Long id) {
         ResponseDto result = bookService.getBookDetail(id);
         return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity updateBook(@PathVariable(name = "id") Long id, @RequestBody UpdateBookReqDto reqDto) {
+        ResponseDto result = bookService.updateBook(id, reqDto);
+        return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result);
     }
 }

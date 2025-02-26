@@ -13,7 +13,8 @@ public enum ResultCode {
     NOT_FOUND("9002", "NOT_FOUND"),
     INTERNAL_SERVER_ERROR("9003", "INTERNAL_SERVER_ERROR"),
     EMAIL_DUPLICATION_ERROR("1000", "이미 등록된 이메일입니다."),
-    AUTHOR_NOT_FOUND("2000", "등록되지 않은 저자입니다.");
+    AUTHOR_NOT_FOUND("2000", "등록되지 않은 저자입니다."),
+    BOOK_NOT_FOUND("2001", "등록되지 않은 도서입니다.");
 
     private String code;
     private String message;

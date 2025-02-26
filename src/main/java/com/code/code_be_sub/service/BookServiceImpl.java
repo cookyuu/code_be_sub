@@ -1,8 +1,6 @@
 package com.code.code_be_sub.service;
 
-import com.code.code_be_sub.dto.BookListResDto;
-import com.code.code_be_sub.dto.RegisterBookReqDto;
-import com.code.code_be_sub.dto.ResponseDto;
+import com.code.code_be_sub.dto.*;
 import com.code.code_be_sub.entity.Author;
 import com.code.code_be_sub.entity.Book;
 import com.code.code_be_sub.global.code.ResultCode;
@@ -58,6 +56,20 @@ public class BookServiceImpl implements BookService {
                 .build());
         log.info("Select book list success.");
         return result.success(resultData);
+    }
+
+    @Override
+    public ResponseDto getBookDetail(Long id) {
+        ResponseDto result = new ResponseDto();
+        BookDetailResDto resData = new BookDetailResDto();
+        Book book = findBookById(id);
+        resData.from(book);
+        log.info("[{}] Select book detail success.", id);
+        return result.success(resData);
+    }
+
+    private Book findBookById(Long id) {
+        return bookRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.BOOK_NOT_FOUND.getMessage()));
     }
 
     private Author findAuthorById(Long id) {

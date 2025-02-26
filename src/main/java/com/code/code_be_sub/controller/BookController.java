@@ -30,4 +30,10 @@ public class BookController {
         ResponseDto result = bookService.getBookList(pageable);
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity getBookDetail(@PathVariable(name = "id") Long id) {
+        ResponseDto result = bookService.getBookDetail(id);
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
 }

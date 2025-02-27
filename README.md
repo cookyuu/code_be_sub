@@ -13,8 +13,14 @@
 ## 1. 프로젝트 실행 방법
 > #### 1. 원하는 폴더에 프로젝트를 클론
 > - 명령어 :  `git clone https://github.com/cookyuu/code_be_sub.git`
-> <br>
-> #### 2. IDE를 통해 프로젝트 Run
+> #### 2. H2 Database 생성
+> Mac 환경
+> - Database Path : /Users/{사용자명}/code-local
+> - Username : sa
+> - password : test
+> <img src="https://github.com/user-attachments/assets/c2142808-ecb6-4964-8372-523f9433aeba" width="500" height="300"/>
+
+> #### 3. IDE를 통해 프로젝트 Run
 
 ## 2. API 사용법
 #### 2.1. POSTMAN
@@ -103,9 +109,8 @@
    
 ## 4. 기타 주의 사항
 > #### - H2 DB 생성 (application.yml 설정 데이터)
->> JDBC URL : jdbc:h2:tcp://localhost/~/code-local
->> <br> User Name : lhk
->> <br> Password : 1234
+>> Windows 환경에서 생성 시 DB 생성 문제
+>> - https://nyximos.tistory.com/73 참조
 > #### - 리스트 조회 시 사용 데이터 생성 필요
 >> 저자 : 저자 등록 API email 값 변경하여 여러 번 호출
 >> <br> 도서 : 도서 등록 API isbn 값 변경하여 여러 번 호출

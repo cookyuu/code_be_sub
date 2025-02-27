@@ -13,27 +13,32 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_book")
+@Table(name = "tb_book", uniqueConstraints = {
+        @UniqueConstraint(
+                name="BOOK_UNIQUE",
+                columnNames={"book_isbn"}
+        )
+})
 public class Book extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "book_id")
     private Long id;
 
-    @Column(name = "book_title")
+    @Column(name = "book_title", nullable = false)
     private String title;
 
     @Column(name = "book_description")
     private String description;
 
-    @Column(name = "book_isbn")
+    @Column(name = "book_isbn", nullable = false)
     private String isbn;
 
     @Column(name = "book_publication_date")
     private LocalDate publicationDate;
 
     @ManyToOne
-    @JoinColumn(name = "author_id")
+    @JoinColumn(name = "author_id", nullable = false)
     private Author author;
 
     @Builder

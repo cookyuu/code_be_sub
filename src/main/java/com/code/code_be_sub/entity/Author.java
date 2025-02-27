@@ -23,10 +23,10 @@ public class Author extends BaseTimeEntity {
     @Column(name = "author_id")
     private Long id;
 
-    @Column(name = "author_name")
+    @Column(name = "author_name", nullable = false)
     private String name;
 
-    @Column(name = "author_email")
+    @Column(name = "author_email", nullable = false)
     private String email;
 
     @Column(name = "is_deleted")

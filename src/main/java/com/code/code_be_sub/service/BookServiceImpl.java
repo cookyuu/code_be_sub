@@ -113,7 +113,11 @@ public class BookServiceImpl implements BookService {
     }
 
     private Author findAuthorById(Long id) {
-        return authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.AUTHOR_NOT_FOUND.getMessage()));
+        Author author = authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.AUTHOR_NOT_FOUND.getMessage()));
+        if (author.isDeleted()) {
+            throw new CodeCustomException(ResultCode.AUTHOR_DELETED);
+        }
+        return author;
     }
 
     private void validateIsbn(String isbn) {

@@ -1,6 +1,6 @@
 package com.code.code_be_sub.global.exception;
 
-import com.code.code_be_sub.global.code.ResultCode;
+import com.code.code_be_sub.global.enums.ResultCode;
 import lombok.Getter;
 
 @Getter

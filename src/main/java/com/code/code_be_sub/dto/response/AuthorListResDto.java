@@ -1,4 +1,4 @@
-package com.code.code_be_sub.dto;
+package com.code.code_be_sub.dto.response;
 
 import com.code.code_be_sub.entity.Author;
 import lombok.*;

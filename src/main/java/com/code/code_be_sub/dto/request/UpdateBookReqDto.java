@@ -1,7 +1,5 @@
-package com.code.code_be_sub.dto;
+package com.code.code_be_sub.dto.request;
 
-import com.code.code_be_sub.entity.Author;
-import com.code.code_be_sub.entity.Book;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -13,7 +11,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RegisterBookReqDto {
+public class UpdateBookReqDto {
     private String title;
     private String description;
     private String isbn;
@@ -22,14 +20,4 @@ public class RegisterBookReqDto {
     private LocalDate publicationDate;
     @JsonProperty("author_id")
     private Long authorId;
-
-    public Book toEntity(Author author) {
-        return Book.builder()
-                .title(this.title)
-                .description(this.title)
-                .isbn(this.isbn)
-                .publicationDate(this.publicationDate)
-                .author(author)
-                .build();
-    }
 }

@@ -1,8 +1,12 @@
 package com.code.code_be_sub.service;
 
 import com.code.code_be_sub.dto.*;
+import com.code.code_be_sub.dto.request.RegisterAuthorReqDto;
+import com.code.code_be_sub.dto.request.UpdateAuthorReqDto;
+import com.code.code_be_sub.dto.response.AuthorDetailResDto;
+import com.code.code_be_sub.dto.response.AuthorListResDto;
 import com.code.code_be_sub.entity.Author;
-import com.code.code_be_sub.global.code.ResultCode;
+import com.code.code_be_sub.global.enums.ResultCode;
 import com.code.code_be_sub.global.exception.CodeCustomException;
 import com.code.code_be_sub.repository.AuthorRepository;
 import jakarta.persistence.EntityNotFoundException;

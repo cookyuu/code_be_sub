@@ -1,7 +1,7 @@
 package com.code.code_be_sub.global.exception;
 
 import com.code.code_be_sub.dto.ResponseDto;
-import com.code.code_be_sub.global.code.ResultCode;
+import com.code.code_be_sub.global.enums.ResultCode;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;

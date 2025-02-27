@@ -1,8 +1,8 @@
 package com.code.code_be_sub.controller;
 
-import com.code.code_be_sub.dto.RegisterBookReqDto;
+import com.code.code_be_sub.dto.request.RegisterBookReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
-import com.code.code_be_sub.dto.UpdateBookReqDto;
+import com.code.code_be_sub.dto.request.UpdateBookReqDto;
 import com.code.code_be_sub.service.BookService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

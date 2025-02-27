@@ -1,4 +1,4 @@
-package com.code.code_be_sub.global.code;
+package com.code.code_be_sub.global.enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

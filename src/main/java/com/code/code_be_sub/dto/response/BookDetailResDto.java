@@ -1,6 +1,5 @@
-package com.code.code_be_sub.dto;
+package com.code.code_be_sub.dto.response;
 
-import com.code.code_be_sub.entity.Author;
 import com.code.code_be_sub.entity.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

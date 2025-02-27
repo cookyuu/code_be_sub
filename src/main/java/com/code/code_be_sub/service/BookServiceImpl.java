@@ -8,6 +8,7 @@ import com.code.code_be_sub.dto.response.BookListResDto;
 import com.code.code_be_sub.entity.Author;
 import com.code.code_be_sub.entity.Book;
 import com.code.code_be_sub.global.enums.ResultCode;
+import com.code.code_be_sub.global.exception.CodeCustomException;
 import com.code.code_be_sub.repository.AuthorRepository;
 import com.code.code_be_sub.repository.BookRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -33,8 +34,11 @@ public class BookServiceImpl implements BookService {
     public ResponseDto registerBook(RegisterBookReqDto reqDto) {
         ResponseDto result = new ResponseDto();
         Author author = findAuthorById(reqDto.getAuthorId());
-        // isbn (국제 표준 도서번호 - 고유)
-        // 추후 isbn 검증 필요 - 형식, 중복 유무
+        String reqIsbn = reqDto.getIsbn();
+        validateIsbn(reqIsbn);
+        if (bookRepository.existsByIsbn(reqIsbn)) {
+            throw new CodeCustomException(ResultCode.BOOK_ISBN_DUPLICATION);
+        }
         Book book = reqDto.toEntity(author);
         bookRepository.save(book);
         log.info("Register book success.");
@@ -77,9 +81,20 @@ public class BookServiceImpl implements BookService {
     @Transactional
     public ResponseDto updateBook(Long id, UpdateBookReqDto reqDto) {
         ResponseDto result = new ResponseDto();
-        Author newAuthor = findAuthorById(reqDto.getAuthorId());
         Book book = findBookById(id);
-        book.update(reqDto.getTitle(), reqDto.getDescription(), reqDto.getIsbn(), reqDto.getPublicationDate(), newAuthor);
+        Author author = book.getAuthor();
+        String isbn = book.getIsbn();
+        if (!author.getId().equals(reqDto.getAuthorId())) {
+            author = findAuthorById(reqDto.getAuthorId());
+        }
+        if (!isbn.equals(reqDto.getIsbn())) {
+            validateIsbn(reqDto.getIsbn());
+            if (bookRepository.existsByIsbnAndIdNot(reqDto.getIsbn(), book.getId())) {
+                throw new CodeCustomException(ResultCode.BOOK_ISBN_DUPLICATION);
+            }
+            isbn = reqDto.getIsbn();
+        }
+        book.update(reqDto.getTitle(), reqDto.getDescription(), isbn, reqDto.getPublicationDate(), author);
         log.info("[{}] Update book success.", id);
         return result.success();
     }
@@ -100,4 +115,23 @@ public class BookServiceImpl implements BookService {
     private Author findAuthorById(Long id) {
         return authorRepository.findById(id).orElseThrow(() -> new EntityNotFoundException(ResultCode.AUTHOR_NOT_FOUND.getMessage()));
     }
+
+    private void validateIsbn(String isbn) {
+        String[] isbnSplit = isbn.split("");
+        String localeCode = isbnSplit[0].concat(isbnSplit[1]);
+        String publisherCode = isbnSplit[2].concat(isbnSplit[3]).concat(isbnSplit[4]).concat(isbnSplit[5]);
+        String bookCode = isbnSplit[6].concat(isbnSplit[7]).concat(isbnSplit[8]);
+        String endCode = isbnSplit[9];
+
+        if (isbnSplit.length != 10) {
+            throw new CodeCustomException(ResultCode.BOOK_ISBN_VALIDATION);
+        }
+        if (10 > Integer.valueOf(localeCode) || Integer.valueOf(localeCode) > 90) {
+            throw new CodeCustomException(ResultCode.BOOK_ISBN_VALIDATION);
+        }
+        if (!endCode.equals("0")) {
+            throw new CodeCustomException(ResultCode.BOOK_ISBN_VALIDATION);
+        }
+    }
+
 }

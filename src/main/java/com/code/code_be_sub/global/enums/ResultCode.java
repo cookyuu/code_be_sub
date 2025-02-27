@@ -17,7 +17,9 @@ public enum ResultCode {
     AUTHOR_NOT_FOUND("1001", "등록되지 않은 저자입니다."),
     AUTHOR_DELETED("1002", "삭제된 저자입니다."),
 
-    BOOK_NOT_FOUND("2000", "등록되지 않은 도서입니다.");
+    BOOK_NOT_FOUND("2000", "등록되지 않은 도서입니다."),
+    BOOK_ISBN_VALIDATION("2001", "형식에 맞지 않는 ISBN 입니다." ),
+    BOOK_ISBN_DUPLICATION("2002", "이미 등록된 ISBN 입니다.");
 
     private String code;
     private String message;

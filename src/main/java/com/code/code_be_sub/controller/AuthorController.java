@@ -4,6 +4,7 @@ import com.code.code_be_sub.dto.RegisterAuthorReqDto;
 import com.code.code_be_sub.dto.ResponseDto;
 import com.code.code_be_sub.dto.UpdateAuthorReqDto;
 import com.code.code_be_sub.service.AuthorService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -18,7 +19,7 @@ public class AuthorController {
     private final AuthorService authorService;
 
     @PostMapping
-    public ResponseEntity registerAuthor(@RequestBody RegisterAuthorReqDto reqDto) {
+    public ResponseEntity registerAuthor(@Valid @RequestBody RegisterAuthorReqDto reqDto) {
         ResponseDto result = authorService.registerAuthor(reqDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(result);
     }
@@ -37,7 +38,7 @@ public class AuthorController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity updateAuthor(@PathVariable(name = "id") Long id, @RequestBody UpdateAuthorReqDto reqDto) {
+    public ResponseEntity updateAuthor(@PathVariable(name = "id") Long id, @Valid @RequestBody UpdateAuthorReqDto reqDto) {
         ResponseDto result = authorService.updateAuthor(id, reqDto);
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body(result.success());
     }

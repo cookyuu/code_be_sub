@@ -3,6 +3,7 @@ package com.code.code_be_sub.entity;
 import com.code.code_be_sub.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,7 +27,7 @@ public class Book extends BaseTimeEntity {
     private String description;
 
     @Column(name = "book_isbn")
-    private Integer isbn;
+    private String isbn;
 
     @Column(name = "book_publication_date")
     private LocalDate publicationDate;
@@ -34,4 +35,21 @@ public class Book extends BaseTimeEntity {
     @ManyToOne
     @JoinColumn(name = "author_id")
     private Author author;
+
+    @Builder
+    Book(String title, String description, String isbn, LocalDate publicationDate, Author author) {
+        this.title = title;
+        this.description = description;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.author = author;
+    }
+
+    public void update(String title, String description, String isbn, LocalDate publicationDate, Author author) {
+        this.title = title;
+        this.description = description;
+        this.isbn = isbn;
+        this.publicationDate = publicationDate;
+        this.author = author;
+    }
 }

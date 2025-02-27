@@ -30,7 +30,7 @@ public class AuthorServiceImpl implements AuthorService {
         ResponseDto result = new ResponseDto();
         if (isEmailDuplicated(reqDto.getEmail())) {
             log.error("Register author fail, Email is duplicated.");
-            throw new CodeCustomException(ResultCode.EMAIL_DUPLICATION_ERROR);
+            throw new CodeCustomException(ResultCode.EMAIL_DUPLICATION);
         }
         Author author = reqDto.toEntity();
         authorRepository.save(author);
@@ -55,7 +55,7 @@ public class AuthorServiceImpl implements AuthorService {
         ResponseDto result = new ResponseDto<>();
         AuthorListResDto resultData = new AuthorListResDto();
         List<AuthorListResDto.AuthorInfo> resultAuthors = new ArrayList<>();
-        Page<Author> authors = authorRepository.findAll(pageable);
+        Page<Author> authors = authorRepository.findByIsDeletedFalse(pageable);
         authors.getContent().forEach(author ->
                 resultAuthors.add(AuthorListResDto.AuthorInfo.from(author)));
 
@@ -76,6 +76,12 @@ public class AuthorServiceImpl implements AuthorService {
     public ResponseDto updateAuthor(Long id, UpdateAuthorReqDto reqDto) {
         ResponseDto result = new ResponseDto();
         Author author = findAuthorById(id);
+        if (author.isDeleted()) {
+            throw new CodeCustomException(ResultCode.AUTHOR_DELETED);
+        }
+        if (authorRepository.existsByEmailAndIdNotAndIsDeletedFalse(reqDto.getEmail(), id)) {
+            throw new CodeCustomException(ResultCode.EMAIL_DUPLICATION);
+        }
         author.update(reqDto.getName(), reqDto.getEmail());
         return result.success();
     }
@@ -85,12 +91,15 @@ public class AuthorServiceImpl implements AuthorService {
     public ResponseDto deleteAuthor(Long id) {
         ResponseDto result = new ResponseDto();
         Author author = findAuthorById(id);
+        if (author.isDeleted()) {
+            throw new CodeCustomException(ResultCode.AUTHOR_DELETED);
+        }
         author.delete();
         return result.success();
     }
 
     private boolean isEmailDuplicated(String email) {
-        return authorRepository.existsByEmail(email);
+        return authorRepository.existsByEmailAndIsDeletedFalse(email);
     }
 
     private Author findAuthorById(Long id) {

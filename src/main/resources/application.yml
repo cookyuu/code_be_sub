@@ -10,8 +10,8 @@ spring:
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:tcp://localhost/~/code-local
-    username: lhk
-    password: 1234
+    username: sa
+    password: test
 
   jpa:
     show-sql: true

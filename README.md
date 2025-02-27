@@ -14,7 +14,6 @@
 > #### 1. 원하는 폴더에 프로젝트를 클론
 > - 명령어 :  `git clone https://github.com/cookyuu/code_be_sub.git`
 > #### 2. H2 Database 생성
-> Mac 환경
 > - Database Path : /Users/{사용자명}/code-local
 > - Username : sa
 > - password : test
